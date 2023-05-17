@@ -49,6 +49,17 @@ class Transition {
         return input;
     }
 }
+
+class TransitionUpdater {
+    public void addTransition(List<State> availableStates, State state, Transition transition) throws IllegalStateException {
+        if( !availableStates.contains(state) ) {
+            throw new IllegalStateException("Invalid Transition: State " + state.getStateName() + " doesn't exist.");
+        }
+        if( !availableStates.contains(transition.getState()) ) {
+            throw new IllegalStateException("Invalid Transition: State " + transition.getState().getStateName() + " doesn't exist.");
+        }
+        state.getStateTransitionMap().put(transition.getInput(), transition.getState());
+    }
 }
 
 public class FiniteAutomaton {
@@ -88,17 +99,25 @@ public class FiniteAutomaton {
     }
 
     ArrayList<State> availableStates = new ArrayList<>();
-    //private TransitionUpdater tu = new TransitionUpdater();
+    private TransitionUpdater tu = new TransitionUpdater();
 
-    /*
-    public void addTransition(Transition transition) throws IllegalStateException {
-        tu.addTransition(availableStates, transition);
+    public void addTransition(State state, Transition transition) throws IllegalStateException {
+        addState(state);
+        try {
+            tu.addTransition(availableStates, state, transition);
+        } catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
+        }
     }
-    */
+
+    public void addTransition(State state, Transition... transitions) {
+        List<Transition> list = Arrays.asList(transitions);
+        list.forEach(transition -> addTransition(state, transition));
+    }
 
     public boolean addState(State state) {
         var cState = state;
-        if (cState == null || updateAvailableStates(cState) == false) {
+        if( cState == null || updateAvailableStates(cState) == false ) {
             return false;
         }
         
