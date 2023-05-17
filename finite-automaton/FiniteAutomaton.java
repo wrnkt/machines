@@ -37,6 +37,23 @@ public class FiniteAutomaton {
         System.out.println(currentState.getStateName());
     }
 
+    //ArrayList<State> availableStates = new ArrayList<>();
+    //private TransitionUpdater tu = new TransitionUpdater();
+
+    /*
+    public void addTransition(Transition transition) throws IllegalStateException {
+        tu.addTransition(availableStates, transition);
+    }
+
+    public boolean addState(State state) {
+        if (availableStates.contains(state)) {
+            return false;
+        }
+        availableStates.add(state);
+        return true;
+    }
+    */
+
     public static void main(String... args) {
 
         State S0 = new State();
