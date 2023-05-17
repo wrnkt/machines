@@ -71,6 +71,7 @@ public class FiniteAutomaton {
 
 
         FiniteAutomaton fa = new FiniteAutomaton(S0);
+        //fa.addTransition(S1, new Transition('0', S0), new Transition(1, S1));
 
         List<Character> chars = "0101010"
               .chars()
@@ -93,6 +94,7 @@ class State {
     public void setStateTransitionMap(Map<Character, State> map) {
         this.stateTransitionMap = map;
     }
+
     public State getNextState(Character c) {
         return stateTransitionMap.get(c);
     }
