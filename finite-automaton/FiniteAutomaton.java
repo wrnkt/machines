@@ -32,7 +32,7 @@ class State {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Name:" + stateName + "\n");
-        stateTransitionMap.forEach((character, stateName) -> sb.append(character + " " + stateName + "\n"));
+        stateTransitionMap.forEach((character, state) -> sb.append(character + " " + state.getStateName() + "\n"));
         return sb.toString();
     }
 }
@@ -157,13 +157,12 @@ public class FiniteAutomaton {
         FiniteAutomaton fa = new FiniteAutomaton(S0);
         fa.addStates(S1, S2, S3);
 
-        fa.availableStates.forEach(state -> System.out.println(state.toString()));
-
         fa.addTransition(S0, new Transition('0', S0), new Transition('1', S1));
         fa.addTransition(S1, new Transition('0', S2), new Transition('1', S1));
         fa.addTransition(S2, new Transition('0', S0), new Transition('1', S3));
         fa.addTransition(S3, new Transition('1', S3), new Transition('1', S3));
 
+        fa.availableStates.forEach(state -> System.out.println(state.toString()));
 
         List<Character> chars = "0101010"
               .chars()
