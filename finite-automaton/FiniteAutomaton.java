@@ -35,6 +35,20 @@ class State {
         return sb.toString();
     }
 }
+class Transition {
+    Character input;
+    State state;
+    public Transition(Character input, State state) {
+        this.input = input;
+        this.state = state;
+    }
+    public State getState() {
+        return state;
+    }
+    public Character getInput() {
+        return input;
+    }
+}
 }
 
 public class FiniteAutomaton {
