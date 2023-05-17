@@ -1,6 +1,7 @@
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,10 +12,16 @@ class State {
     public State(String name) {
         this.stateName = name;
     }
-    public String getStateName() { return stateName; }
+
+    public String getStateName() {
+        return stateName;
+    }
     
     public void setStateTransitionMap(Map<Character, State> map) {
         this.stateTransitionMap = map;
+    }
+    public Map<Character, State> getStateTransitionMap() {
+        return stateTransitionMap;
     }
 
     public State getNextState(Character c) {
@@ -29,6 +36,7 @@ public class FiniteAutomaton {
     public FiniteAutomaton(State firstState) {
         this.firstState = firstState;
         this.currentState = this.firstState;
+        addState(firstState);
     }
 
     public void updateState(Character c) {
@@ -57,22 +65,38 @@ public class FiniteAutomaton {
         System.out.println(currentState.getStateName());
     }
 
-    //ArrayList<State> availableStates = new ArrayList<>();
+    ArrayList<State> availableStates = new ArrayList<>();
     //private TransitionUpdater tu = new TransitionUpdater();
 
     /*
     public void addTransition(Transition transition) throws IllegalStateException {
         tu.addTransition(availableStates, transition);
     }
+    */
 
     public boolean addState(State state) {
+        var cState = state;
+        if (cState == null || updateAvailableStates(cState) == false) {
+            return false;
+        }
+        
+        Collection<State> linkedStates = cState.getStateTransitionMap().values();
+        if ( linkedStates.isEmpty() ) {
+            return true;
+        }
+        for (State linkedState : linkedStates) {
+            addState(linkedState);
+        }
+        return true;
+    }
+    
+    public boolean updateAvailableStates(State state) {
         if (availableStates.contains(state)) {
             return false;
         }
         availableStates.add(state);
         return true;
     }
-    */
 
     public static void main(String... args) {
 
