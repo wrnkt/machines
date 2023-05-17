@@ -21,6 +21,7 @@ class State {
     public void setStateTransitionMap(Map<Character, State> map) {
         this.stateTransitionMap = map;
     }
+
     public Map<Character, State> getStateTransitionMap() {
         return stateTransitionMap;
     }
