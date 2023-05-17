@@ -125,14 +125,20 @@ public class FiniteAutomaton {
         if ( linkedStates.isEmpty() ) {
             return true;
         }
-        for (State linkedState : linkedStates) {
+        for( State linkedState : linkedStates ) {
             addState(linkedState);
         }
         return true;
     }
+
+    public void addStates(State... states) {
+        for( State state : states ) {
+            addState(state);
+        }
+    }
     
     public boolean updateAvailableStates(State state) {
-        if (availableStates.contains(state)) {
+        if( availableStates.contains(state) ) {
             return false;
         }
         availableStates.add(state);
