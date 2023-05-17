@@ -5,7 +5,7 @@ JAVA = java
 #JC_FLAGS = -g
 #J_FLAGS = -ea
 
-JAVA_MAIN_CLASS = FiniteAutomaton
+JAVA_MAIN_CLASS = machines.finitestate.FiniteAutomaton
 JAVA_SOURCES = $(wildcard src/main/java/**/**/*.java)
 JAVA_CLASSES = $(patsubst src/main/java/%.java, target/classes/%.class, $(JAVA_SOURCES))
 

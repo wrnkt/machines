@@ -1,3 +1,5 @@
+package machines.finitestate;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -68,6 +70,7 @@ class TransitionUpdater {
 public class FiniteAutomaton {
     private State firstState = null;
     private State currentState = null;
+    private State successState = null;
 
     public FiniteAutomaton(State firstState) {
         this.firstState = firstState;
@@ -85,7 +88,14 @@ public class FiniteAutomaton {
             this.currentState = nextState;
         }
         System.out.println("Updated State: " + currentState.getStateName());
+        if( this.currentState == successState ) {
+            System.out.println("Found pattern.");
+        }
         System.out.println("-----------");
+    }
+
+    public void setSuccessState(State state) {
+        this.successState = state;
     }
 
     public void evaluate(List<Character> characters) {
@@ -157,6 +167,7 @@ public class FiniteAutomaton {
 
         FiniteAutomaton fa = new FiniteAutomaton(S0);
         fa.addStates(S1, S2, S3);
+        fa.setSuccessState(S3);
 
         fa.addTransition(S0, new Transition('0', S0), new Transition('1', S1));
         fa.addTransition(S1, new Transition('0', S2), new Transition('1', S1));
@@ -165,7 +176,7 @@ public class FiniteAutomaton {
 
         fa.availableStates.forEach(state -> System.out.println(state.toString()));
 
-        List<Character> chars = "0101010"
+        List<Character> chars = "011001100101000"
               .chars()
               .mapToObj(e -> (char)e)
               .collect(Collectors.toList());
