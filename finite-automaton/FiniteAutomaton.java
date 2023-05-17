@@ -27,6 +27,14 @@ class State {
     public State getNextState(Character c) {
         return stateTransitionMap.get(c);
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Name:" + stateName + "\n");
+        stateTransitionMap.forEach((character, stateName) -> sb.append(character + " " + stateName + "\n"));
+        return sb.toString();
+    }
+}
 }
 
 public class FiniteAutomaton {
