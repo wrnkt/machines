@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 class State {
@@ -35,6 +36,7 @@ class State {
         return sb.toString();
     }
 }
+
 class Transition {
     Character input;
     State state;
@@ -151,30 +153,17 @@ public class FiniteAutomaton {
         State S1 = new State("S1");
         State S2 = new State("S2");
         State S3 = new State("S3");
-        
-        Map<Character, State> map = new HashMap<>();
-        map.put('0', S0);
-        map.put('1', S1);
-        S0.setStateTransitionMap(map);
-
-        map = new HashMap<>();
-        map.put('0', S2);
-        map.put('1', S1);
-        S1.setStateTransitionMap(map);
-
-        map = new HashMap<>();
-        map.put('0', S0);
-        map.put('1', S3);
-        S2.setStateTransitionMap(map);
-
-        map = new HashMap<>();
-        map.put('0', S3);
-        map.put('1', S3);
-        S3.setStateTransitionMap(map);
-
 
         FiniteAutomaton fa = new FiniteAutomaton(S0);
-        //fa.addTransition(S1, new Transition('0', S0), new Transition(1, S1));
+        fa.addStates(S1, S2, S3);
+
+        fa.availableStates.forEach(state -> System.out.println(state.toString()));
+
+        fa.addTransition(S0, new Transition('0', S0), new Transition('1', S1));
+        fa.addTransition(S1, new Transition('0', S2), new Transition('1', S1));
+        fa.addTransition(S2, new Transition('0', S0), new Transition('1', S3));
+        fa.addTransition(S3, new Transition('1', S3), new Transition('1', S3));
+
 
         List<Character> chars = "0101010"
               .chars()
