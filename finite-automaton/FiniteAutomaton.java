@@ -45,8 +45,10 @@ public class FiniteAutomaton {
     }
 
     public void evaluate(List<Character> characters) {
+        var sb = new StringBuilder();
         for( Character c : characters ) {
-            System.out.println("Input: " + c);
+            sb.append(c);
+            System.out.println("Input: " + sb.toString() + "|");
             updateState(c);
         }
     }
@@ -74,15 +76,10 @@ public class FiniteAutomaton {
 
     public static void main(String... args) {
 
-        State S0 = new State();
-        S0.setStateName("S0");
-        State S1 = new State();
-        S1.setStateName("S1");
-        State S2 = new State();
-        S2.setStateName("S2");
-        State S3 = new State();
-        S3.setStateName("S3");
-
+        State S0 = new State("S0");
+        State S1 = new State("S1");
+        State S2 = new State("S2");
+        State S3 = new State("S3");
         
         Map<Character, State> map = new HashMap<>();
         map.put('0', S0);
