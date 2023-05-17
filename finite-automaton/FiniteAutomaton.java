@@ -4,6 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+class State {
+    private String stateName = null;
+    private Map<Character, State> stateTransitionMap = new HashMap<Character, State>();
+
+    public State(String name) {
+        this.stateName = name;
+    }
+    public String getStateName() { return stateName; }
+    
+    public void setStateTransitionMap(Map<Character, State> map) {
+        this.stateTransitionMap = map;
+    }
+
+    public State getNextState(Character c) {
+        return stateTransitionMap.get(c);
+    }
+}
+
 public class FiniteAutomaton {
     private State firstState = null;
     private State currentState = null;
@@ -100,19 +118,3 @@ public class FiniteAutomaton {
     }
 }
 
-class State {
-    private String stateName = "";
-    private Map<Character, State> stateTransitionMap = new HashMap<Character, State>();
-
-    public State() {}
-    public void setStateName(String name) { this.stateName = name; }
-    public String getStateName() { return stateName; }
-    
-    public void setStateTransitionMap(Map<Character, State> map) {
-        this.stateTransitionMap = map;
-    }
-
-    public State getNextState(Character c) {
-        return stateTransitionMap.get(c);
-    }
-}
