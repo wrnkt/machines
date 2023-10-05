@@ -72,10 +72,16 @@ public class FiniteAutomaton {
     private State currentState = null;
     private State successState = null;
 
-    public FiniteAutomaton(State firstState) {
+    public FiniteAutomaton(State firstState)
+    {
+        setFirstState(firstState);
+        addState(firstState);
+    }
+
+    private void setFirstState(State firstState)
+    {
         this.firstState = firstState;
         this.currentState = this.firstState;
-        addState(firstState);
     }
 
     public void updateState(Character c) {
