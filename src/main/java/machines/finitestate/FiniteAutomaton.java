@@ -8,31 +8,38 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-class State {
+class State
+{
     private String stateName = null;
     private Map<Character, State> stateTransitionMap = new HashMap<Character, State>();
 
-    public State(String name) {
+    public State(String name)
+    {
         this.stateName = name;
     }
 
-    public String getStateName() {
+    public String getStateName()
+    {
         return stateName;
     }
     
-    public void setStateTransitionMap(Map<Character, State> map) {
+    public void setStateTransitionMap(Map<Character, State> map)
+    {
         this.stateTransitionMap = map;
     }
 
-    public Map<Character, State> getStateTransitionMap() {
+    public Map<Character, State> getStateTransitionMap()
+    {
         return stateTransitionMap;
     }
 
-    public State getNextState(Character c) {
+    public State getNextState(Character c)
+    {
         return stateTransitionMap.get(c);
     }
 
-    public String toString() {
+    public String toString()
+    {
         StringBuilder sb = new StringBuilder();
         sb.append("Name:" + stateName + "\n");
         stateTransitionMap.forEach((character, state) -> sb.append(character + " " + state.getStateName() + "\n"));
@@ -40,34 +47,43 @@ class State {
     }
 }
 
-class Transition {
+class Transition
+{
     Character input;
     State state;
-    public Transition(Character input, State state) {
+    public Transition(Character input, State state)
+    {
         this.input = input;
         this.state = state;
     }
-    public State getState() {
+    public State getState()
+    {
         return state;
     }
-    public Character getInput() {
+    public Character getInput()
+    {
         return input;
     }
 }
 
-class TransitionUpdater {
-    public void addTransition(List<State> availableStates, State state, Transition transition) throws IllegalStateException {
-        if( !availableStates.contains(state) ) {
+class TransitionUpdater
+{
+    public void addTransition(List<State> availableStates, State state, Transition transition) throws IllegalStateException
+    {
+        if( !availableStates.contains(state) )
+        {
             throw new IllegalStateException("Invalid Transition: State " + state.getStateName() + " doesn't exist.");
         }
-        if( !availableStates.contains(transition.getState()) ) {
+        if( !availableStates.contains(transition.getState()) )
+        {
             throw new IllegalStateException("Invalid Transition: State " + transition.getState().getStateName() + " doesn't exist.");
         }
         state.getStateTransitionMap().put(transition.getInput(), transition.getState());
     }
 }
 
-public class FiniteAutomaton {
+public class FiniteAutomaton
+{
     private State firstState = null;
     private State currentState = null;
     private State successState = null;
@@ -84,7 +100,8 @@ public class FiniteAutomaton {
         this.currentState = this.firstState;
     }
 
-    public void updateState(Character c) {
+    public void updateState(Character c)
+    {
         System.out.println("Current State: " + currentState.getStateName());
         System.out.println("Updating...");
         var nextState = currentState.getNextState(c);
@@ -100,11 +117,13 @@ public class FiniteAutomaton {
         System.out.println("-----------");
     }
 
-    public void setSuccessState(State state) {
+    public void setSuccessState(State state)
+    {
         this.successState = state;
     }
 
-    public void evaluate(List<Character> characters) {
+    public void evaluate(List<Character> characters)
+    {
         var sb = new StringBuilder();
         for( Character c : characters ) {
             sb.append(c);
@@ -113,14 +132,16 @@ public class FiniteAutomaton {
         }
     }
 
-    public void printCurrentState() {
+    public void printCurrentState()
+    {
         System.out.println(currentState.getStateName());
     }
 
     ArrayList<State> availableStates = new ArrayList<>();
     private TransitionUpdater tu = new TransitionUpdater();
 
-    public void addTransition(State state, Transition transition) throws IllegalStateException {
+    public void addTransition(State state, Transition transition) throws IllegalStateException
+    {
         addState(state);
         try {
             tu.addTransition(availableStates, state, transition);
@@ -129,12 +150,14 @@ public class FiniteAutomaton {
         }
     }
 
-    public void addTransition(State state, Transition... transitions) {
+    public void addTransition(State state, Transition... transitions)
+    {
         List<Transition> list = Arrays.asList(transitions);
         list.forEach(transition -> addTransition(state, transition));
     }
 
-    public boolean addState(State state) {
+    public boolean addState(State state)
+    {
         var cState = state;
         if( cState == null || updateAvailableStates(cState) == false ) {
             return false;
@@ -150,22 +173,22 @@ public class FiniteAutomaton {
         return true;
     }
 
-    public void addStates(State... states) {
+    public void addStates(State... states)
+    {
         for( State state : states ) {
             addState(state);
         }
     }
     
-    public boolean updateAvailableStates(State state) {
-        if( availableStates.contains(state) ) {
-            return false;
-        }
+    public boolean updateAvailableStates(State state)
+    {
+        if( availableStates.contains(state) ) return false;
         availableStates.add(state);
         return true;
     }
 
-    public static void main(String... args) {
-
+    public static void main(String... args)
+    {
         State S0 = new State("S0");
         State S1 = new State("S1");
         State S2 = new State("S2");
@@ -188,7 +211,6 @@ public class FiniteAutomaton {
               .collect(Collectors.toList());
 
         fa.evaluate(chars);
-
     }
 }
 
